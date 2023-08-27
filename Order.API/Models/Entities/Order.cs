@@ -1,12 +1,15 @@
-﻿namespace Order.API.Models.Entities
+﻿using Order.API.Models.Enums;
+
+namespace Order.API.Models.Entities
 {
     public class Order
     {
         public Guid OrderId { get; set; }
         public Guid  BuyerId { get; set; }
-        public long TotalPrice { get; set; }
-        public string Description { get; set; }
-
-        }
+        public decimal TotalPrice { get; set; }
+        public  OrderStatus OrderStatu { get; set; }
+        public DateTime CreateDate { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
+        
     }
 }
