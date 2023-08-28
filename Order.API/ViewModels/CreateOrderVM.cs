@@ -2,7 +2,7 @@
 {
     public class CreateOrderVM
     {
-        //Bu Entity i güzel modellememiz lazım mesela bunun içerisinde OrderId olmayacak çünkü burası müşteriden gelen bilgiler müşteri Order oluştururken onun oluşacak Id sini bilmez bilmeside gerekmez.OrderId si müşteri ietekte bulunup oluşurken kendi oluşacak. O yüzden OrderId burda yok.
+        //Bu Entity i güzel modellememiz lazım mesela bunun içerisinde OrderId olmayacak çünkü burası müşteriden gelen bilgiler müşteri Order oluştururken onun oluşacak Id sini bilmez bilmeside gerekmez.OrderId si müşteri istekte bulunup sipariş oluşurken kendi oluşacak. O yüzden OrderId burda yok.
 
         public Guid BuyerId { get; set; }
 

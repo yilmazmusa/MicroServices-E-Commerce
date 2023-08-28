@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MassTransit;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Order.API.Models;
 using Order.API.ViewModels;
+using Shared.Events;
 
 namespace Order.API.Controllers
 {
@@ -10,14 +12,16 @@ namespace Order.API.Controllers
     public class OrdersController : ControllerBase
     {
         readonly OrderAPIDBContext _context;
+        readonly IPublishEndpoint _publishEndpoint; // Bu MassTransit üzerinden bir Eventi Publish edebilmemizi sağlayan instance'ı IOC Container den bize getirecek.
 
-        public OrdersController(OrderAPIDBContext context)
+        public OrdersController(OrderAPIDBContext context, IPublishEndpoint publishEndpoint)
         {
             _context = context;
-        } 
+            _publishEndpoint = publishEndpoint;
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder( CreateOrderVM createOrder) //Kullanıcıdan gelen bilgilere göre bir Order oluşturan Servis.Kullanıcıdan gelen bilgileri ViemModel la karşılıycaz.Daha sonra o ViewModel dan gelen verileri Entitylere dönüştürücem. O Entity leride Veritabanına ekliycez.
+        public async Task<IActionResult> CreateOrder( CreateOrderVM createOrder) //Kullanıcıdan gelen bilgilere göre bir Order(Sipariş) oluşturan Servis.Kullanıcıdan gelen bilgileri ViemModel la karşılıycaz.Daha sonra o ViewModel dan gelen verileri Entitylere dönüştürücem. O Entity leride Veritabanına ekliycez.
         {
             Order.API.Models.Entities.Order order = new()
             {
@@ -41,6 +45,22 @@ namespace Order.API.Controllers
             await _context.Orders.AddAsync(order); 
             await  _context.SaveChangesAsync();
 
+            OrderCreatedEvent orderCreatedEvent = new() // Burda Shared projesi altındaki OrderCreatedEvent den bir instance üretmek istiyorsan Order.API de Add Project Reference deyip Shared i eklemek gerekiyor.
+            {
+                BuyerId = order.BuyerId,//burda order danda verebiliriz VM den gelen createOrder da da veririz
+                OrderId = order.OrderId,
+                OrderItems = order.OrderItems.Select(oi => new Shared.Messages.OrderItemMessage
+                {
+                    Count = oi.Count,
+                    ProductId = oi.ProductId,
+                }).ToList()
+            };
+
+            // Bir siparişin oluşturulduğunu  gösteren OrderCreatedEvet nesnesini oluşturduk artık bu nesnesi publish edicez sadece.Onu da aşağıda yapıcaz.
+
+            await _publishEndpoint.Publish(orderCreatedEvent);
+
+                    
             return Ok();
         }
     }
