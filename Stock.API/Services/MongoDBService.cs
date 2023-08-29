@@ -11,5 +11,10 @@ namespace Stock.API.Services
                 MongoClient   client = new(configuration.GetConnectionString("MongoDB"));
                 _mongoDatabase = client.GetDatabase("StockAPIDB");
         }
+
+
+
+        //MongoDB de bir DATABASE(StockAPIDB) den  veri okumak için  IMongoCollection türünden bir func oluşturduk.
+        public IMongoCollection<T> GetCollection<T>() => _mongoDatabase.GetCollection<T>(typeof(T).Name.ToLowerInvariant());
     }
 }
