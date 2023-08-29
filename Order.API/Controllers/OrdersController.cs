@@ -53,7 +53,8 @@ namespace Order.API.Controllers
                 {
                     Count = oi.Count, //    Burda sadce Count ve ProductId leri atmamızın sebebi Stock servisi için bu iki data önemli çünkü.Şu ProductIds li üründen 5 stok düş diyecek çünkü.
                     ProductId = oi.ProductId,
-                }).ToList()
+                }).ToList(),
+                TotalPrice = order.TotalPrice,
             };
 
             // Bir siparişin oluşturulduğunu  gösteren OrderCreatedEvet nesnesini oluşturduk artık bu nesneyi publish edicez sadece.Onu da aşağıda yapıcaz.

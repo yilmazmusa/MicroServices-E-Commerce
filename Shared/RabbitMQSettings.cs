@@ -9,5 +9,7 @@ namespace Shared
     public class RabbitMQSettings
     {
         public const string Stock_OrderCreatedEventQueue = "stock-order-created-event-queue";  //Burda bir sabit tanımlıyoruz.Burda diyoruz ki bir kuyruk var bu kuyruk  OrderCreatedEvent in içerisindeki dataları/verileri taşıyo hangi servis için taşıyo Stock servisi için.Bi format oluşturduk yani.
+
+        public const string Payment_StockReservedEventQueue = "payment-stock-reserved-event-queue";
     }
 }
