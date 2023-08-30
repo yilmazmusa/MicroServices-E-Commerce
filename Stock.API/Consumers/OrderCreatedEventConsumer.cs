@@ -49,7 +49,7 @@ namespace Stock.API.Consumers
                         TotalPrice = context.Message.TotalPrice,
                     };
 
-                   ISendEndpoint sendEndpoint= await  _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettings.Payment_StockReservedEventQueue} ")); //Hedef kuyruğu belirledik.Bu kuyruğu dinleyen Services/Consumer ların olaydan haberi olacak sadace.
+                   ISendEndpoint sendEndpoint= await  _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettings.Payment_StockReservedEventQueue} ")); //Hedef kuyruğu belirledik.Bu kuyruğu dinleyen Services/Consumer(Payment.API) ların olaydan haberi olacak sadace.
 
                     sendEndpoint.Send(stockReservedEvent); //Yayınlama işlemini tamamladık.
 
