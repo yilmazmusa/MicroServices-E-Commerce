@@ -13,12 +13,15 @@ namespace Stock.API.Consumers
 
         readonly ISendEndpointProvider _sendEndpointProvider; // Stock-Payment Servisleri arasında iletişimde Send/kuyruk metodunu kullanacağımız için ekledik.
 
+        readonly IPublishEndpoint _publishEndpoint;
 
 
-        public OrderCreatedEventConsumer(MongoDBService mongoDBService, ISendEndpointProvider sendEndpointProvider)
+
+        public OrderCreatedEventConsumer(MongoDBService mongoDBService, ISendEndpointProvider sendEndpointProvider, IPublishEndpoint publishEndpoint)
         {
             _stockCollection = mongoDBService.GetCollection<Stock.API.Models.Entities.Stock>();
             _sendEndpointProvider = sendEndpointProvider;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
@@ -58,6 +61,15 @@ namespace Stock.API.Consumers
             else
             {
                 //Sipariş hatalı/ Hatalı Ürün girdiniz./Stok Yok
+                StockNotReservedEvent stockNotReservedEvent = new()
+                {
+                    BuyerId = context.Message.BuyerId,
+                    OrderId = context.Message.OrderId,
+                    Message ="Siparişte bir hata oluştu."
+                };
+
+                _publishEndpoint.Publish(stockNotReservedEvent);
+
             }
 
         }
