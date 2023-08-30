@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Shared.Events
 {
-    internal class StockReservedEvent
+    public class StockReservedEvent
     {
+        public Guid BuyerId { get; set; }
+        public Guid OrderId { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }
