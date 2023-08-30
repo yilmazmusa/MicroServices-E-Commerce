@@ -56,6 +56,8 @@ namespace Stock.API.Consumers
 
                     sendEndpoint.Send(stockReservedEvent); //Yayınlama işlemini tamamladık.
 
+                    Console.WriteLine("Stock işlemleri başarılı");
+
                 }
             }
             else
@@ -69,6 +71,8 @@ namespace Stock.API.Consumers
                 };
 
                 _publishEndpoint.Publish(stockNotReservedEvent);
+
+                Console.WriteLine("Stock işlemleri başarısız");
 
             }
 
