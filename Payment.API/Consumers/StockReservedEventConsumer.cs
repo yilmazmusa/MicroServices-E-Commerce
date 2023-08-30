@@ -25,10 +25,21 @@ namespace Payment.API.Consumers
                     //Burda ödeme için TotalPrice ve BuyerId gerekiyor aslında mış gibi yaptık burda.
                 };
                 _publishEndpoint.Publish(paymentCompletedEvent); // Publish ettik artık.
+
+                Console.WriteLine("Ödeme Başarılı");
             }
             else
             {
-                //Ödeme sırasında hata
+                //Ödeme sırasında hata varsa
+                //Aslında buraya hiç düşmeyecek çünkü yukardaki if in içi true :) mış gibi yaptık.
+                PaymentFailedEvent paymentFailedEvent = new()
+                {
+                    OrderId = context.Message.OrderId,
+                    Message = "Ödeme sırasında bir hata oluştu.Bakiye yetersiz."
+                };
+                Console.WriteLine("Ödeme Başarısız");
+
+
             }
             return Task.CompletedTask;
         }
