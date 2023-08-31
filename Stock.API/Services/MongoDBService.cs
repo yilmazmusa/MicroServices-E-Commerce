@@ -8,8 +8,8 @@ namespace Stock.API.Services
 
         public MongoDBService(IConfiguration configuration)
         {
-                MongoClient   client = new(configuration.GetConnectionString("MongoDB"));
-                _mongoDatabase = client.GetDatabase("StockAPIDB");
+                MongoClient   client = new(configuration.GetConnectionString("MongoDB")); //ConnectionStringi aldık.
+                _mongoDatabase = client.GetDatabase("StockDB");
         }
 
 

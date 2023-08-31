@@ -28,6 +28,7 @@ namespace Stock.API.Consumers
         {
             List<bool> stockResult = new();
 
+
             foreach (OrderItemMessage orderItem in context.Message.OrderItems)
             {
                 stockResult.Add((await _stockCollection.FindAsync(s => s.ProductId == orderItem.ProductId && s.Count >= orderItem.Count)).Any()); // Şimdi burda siparişin alınabilmesi için gönderilen ProductId ye karşılık VT nında bir ProductId olması ve  VT  da siparişte istenen Counttan  daha fazla Count ta ürün olması lazım.Eğer bu iki case sağlanırsa stockResult a true basıcak.Bizde stockResult un içine bakarak hangi sipariş başarılı hangisi başarısız anlayacağız.
@@ -37,7 +38,7 @@ namespace Stock.API.Consumers
             {
                 foreach (OrderItemMessage orderItem in context.Message.OrderItems)
                 {
-                    Stock.API.Models.Entities.Stock stock = await (await _stockCollection.FindAsync(s => s.ProductId == orderItem.ProductId)).FirstOrDefaultAsync(); //Aslında burda eşleşen ürünü bulduk.Sonrasında bu ürünün Count tudan siparişte istenen Count u çıkarıcaz ki Stok güncellensin.
+                    Stock.API.Models.Entities.Stock stock = await (await _stockCollection.FindAsync(s => s.ProductId == orderItem.ProductId)).FirstOrDefaultAsync(); //Aslında burda eşleşen ürünü bulduk.Sonrasında bu ürünün Count tundan siparişte istenen Count u çıkarıcaz ki Stok güncellensin.
 
                     stock.Count -= orderItem.Count;
 
@@ -70,7 +71,7 @@ namespace Stock.API.Consumers
                     Message ="Siparişte bir hata oluştu."
                 };
 
-                _publishEndpoint.Publish(stockNotReservedEvent);
+                _publishEndpoint.Publish(stockNotReservedEvent); //Bu Eventi Order.API StockNotReservedEventConsumer ile  dinleyecek.Paymente gitmesine gerek yok çünkü stoğu olmayan ürünün ödemesi olmaz.
 
                 Console.WriteLine("Stock işlemleri başarısız");
 

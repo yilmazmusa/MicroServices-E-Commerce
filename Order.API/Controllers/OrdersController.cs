@@ -52,16 +52,16 @@ namespace Order.API.Controllers
                 OrderItems = order.OrderItems.Select(oi => new Shared.Messages.OrderItemMessage
                 {
                     Count = oi.Count, //    Burda sadce Count ve ProductId leri atmamızın sebebi Stock servisi için bu iki data önemli çünkü.Şu ProductIds li üründen 5 stok düş diyecek çünkü.
-                    ProductId = oi.ProductId,
+                    ProductId = oi.ProductId, 
                 }).ToList(),
                 TotalPrice = order.TotalPrice,
             };
 
             // Bir siparişin oluşturulduğunu  gösteren OrderCreatedEvet nesnesini oluşturduk artık bu nesneyi publish edicez sadece.Onu da aşağıda yapıcaz.
 
-            await _publishEndpoint.Publish(orderCreatedEvent);
+            await _publishEndpoint.Publish(orderCreatedEvent); //Eventi publih ile yayınladık.Artık  bu Eventi OrderCreatedEventConsumer dinleyecek.
 
-                    
+
             return Ok();
         }
     }

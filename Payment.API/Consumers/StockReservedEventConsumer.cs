@@ -24,6 +24,7 @@ namespace Payment.API.Consumers
                     OrderId = context.Message.OrderId,
                     //Burda ödeme için TotalPrice ve BuyerId gerekiyor aslında mış gibi yaptık burda.
                 };
+
                 _publishEndpoint.Publish(paymentCompletedEvent); // Publish ettik artık.
 
                 Console.WriteLine("Ödeme Başarılı");
