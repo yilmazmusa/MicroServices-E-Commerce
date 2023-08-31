@@ -37,13 +37,11 @@ var collection = mongoDBService.GetCollection<Stock.API.Models.Entities.Stock>()
 
 if (!collection.FindSync(s => true).Any())
 {
-    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid(), Count = 2000 });
-    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid(), Count = 1000 });
-    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid(), Count = 3000 });
-    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid(), Count = 5000 });
-    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid(), Count = 500 });
-
-
+    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid().ToString(), Count = 2000 });
+    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid().ToString(), Count = 1000 });
+    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid().ToString(), Count = 3000 });
+    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid().ToString(), Count = 5000 });
+    await collection.InsertOneAsync(new() { ProductId = Guid.NewGuid().ToString(), Count = 500 });
 }
 
 #endregion
