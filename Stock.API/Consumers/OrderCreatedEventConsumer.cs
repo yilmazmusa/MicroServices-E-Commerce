@@ -23,7 +23,7 @@ namespace Stock.API.Consumers
             _sendEndpointProvider = sendEndpointProvider;
             _publishEndpoint = publishEndpoint;
         }
-
+         
         public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
             List<bool> stockResult = new();
