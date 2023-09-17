@@ -8,8 +8,8 @@ namespace Stock.API.Services
 
         public MongoDBService(IConfiguration configuration)
         {
-                MongoClient   client = new(configuration.GetConnectionString("MongoDB")); //ConnectionStringi aldık.
-                _mongoDatabase = client.GetDatabase("StockDB");
+            MongoClient client = new(configuration.GetConnectionString("MongoDB"));//MongoClient sınıfı bizim MongoDB nin sunucusuna bağlanmamızı sağlıyo zaten MongoDB  sunucusunun ConnectionStringini alıyor. client sunucuya bağlanıyor ve bize veritabanını getiriyor.
+            _mongoDatabase = client.GetDatabase("StockDB"); //StockDB adındaki Veritabanımızı _mongoDatabase referansına verdik.
         }
 
 
