@@ -32,8 +32,8 @@ builder.Services.AddSingleton<MongoDBService>(); // MongoDBService' nin IOC ile 
 
 using IServiceScope scope = builder.Services.BuildServiceProvider().CreateScope(); // Burada IServiceScope IDisposable türünden olduðu için yani tek kullanýmlýk baþýna using koyduk. Bir scope oluþturduk.
 
-MongoDBService mongoDBService = scope.ServiceProvider.GetService<MongoDBService>(); // Scope a   MongoDBService ini ekledik.
-var collection = mongoDBService.GetCollection<Stock.API.Models.Entities.Stock>(); // Stock Entitysini collection a ekledik.
+MongoDBService mongoDBService = scope.ServiceProvider.GetService<MongoDBService>(); //Bir Scope oluþturduk ve bu Scope  MongoDBService e  bakýyo.Yani MongoDBService in içerisinde hangi DB varsa ona.
+var collection = mongoDBService.GetCollection<Stock.API.Models.Entities.Stock>(); // Stock Entitysini/tablosunu collection a ekledik.
 
 if (!collection.FindSync(s => true).Any())
 {
