@@ -12,8 +12,8 @@ using Order.API.Models;
 namespace Order.API.Migrations
 {
     [DbContext(typeof(OrderAPIDBContext))]
-    [Migration("20230827210002_mig_3")]
-    partial class mig_3
+    [Migration("20230917133040_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,10 +36,6 @@ namespace Order.API.Migrations
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OrderStatu")
                         .HasColumnType("int");
@@ -69,8 +65,9 @@ namespace Order.API.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("ProductId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
